@@ -1,1 +1,1 @@
-# my-sums_4_it
+# This is a shared repository for all my IT notes
