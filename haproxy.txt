@@ -1,0 +1,137 @@
+------------------------------------------------------------
+
+HAProxy - Бесплатный LoadBalancer - Установка и Конфигурация
+
+------------------------------------------------------------
+
+HAProxy — серверное программное обеспечение для обеспечения высокой доступности и балансировки нагрузки
+
+для TCP- и HTTP-приложений посредством распределения входящих запросов на несколько обслуживающих серверов.
+
+Программа написана на C&.
+
+Простыми словами - HAProxy: очень крутой и бесплатный LoadBalanser.
+
+http://www.haproxy.org/
+
+Установка (Ubuntu):
+
+-------------------
+
+...
+
+sudo apt install haproxy -y
+
+...
+
+Прверка установленной версии haproxy:
+
+-------------------------------------
+
+...
+
+haproxy -v
+
+...
+
+Прверка статуса службы haproxy:
+
+-------------------------------
+
+...
+
+sudo service haproxy status
+
+или
+
+sudo systemctl status haproxy.servoce
+
+...
+
+Конфигурирование haproxy:
+
+-------------------------
+
+...
+
+cd /etc/haproxy/
+
+sudo vim ./haproxy.cfg
+
+...
+
+- В конец файла добавляем:
+
+#============================
+
+# frontend - где принимаем запросы, beckend - куда направляем.
+
+# имена frontend-ов и backend-ов - произвольные.
+
+# roundrobin - тип балансировки "по кругу" - балансирует на каждый хост по очереди.
+
+frontend my_http_front
+
+bind *:80
+
+default_backend my_httpd_back
+
+frontend my_secret_front
+
+bind *:8080
+
+default_backend my_secret_back
+
+backend my_httpd_back
+
+balance roundrobin
+
+server myweb1 <IP_адрес_сервера>:80
+
+server myweb2 <IP_адрес_сервера>:80
+
+backend my_secret_back
+
+balance roundrobin
+
+server mysecretweb <IP_адрес_сервера>:80
+
+#==================================
+
+Перезапуск haproxy:
+
+-------------------
+
+...
+
+sudo service haproxy restart
+
+или
+
+sudo systemctl restart haproxy.servoce
+
+...
+
+Регулировка процента бланасировки запросов на конкретные хосты:
+
+---------------------------------------------------------------
+
+...
+
+sudo vim /etc/haproxy/haproxy.cfg
+
+...
+
+#==================================
+
+# В блоке нужного backend-а после <IP:PORT> нужного сервера добавляем вес weigth <процент запросов>
+
+# В описанном ниже случае 9 из 10 запросов пойдет на myweb1, a 10-й на myweb2:
+
+backend my_httpd_back
+
+balance roundrobin
+
+server myweb1 <IP_адрес_сервера>:80 weigth 90
+
+server myweb2 <IP_адрес_сервера>:80 weigth 10
