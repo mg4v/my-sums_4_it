@@ -1,0 +1,310 @@
+Контейнер - использует ядро ОС хоста
+ Включает в себя наборы библиотек, конфигураций и ПО.
+
+ОСНОВНЫЕ ЭЛЕМЕНТЫ DOCKER:
+- Docker-client: интерфейс взаимодейтвия пользователя с демономо Docker + API
+- Docker-daemon: управление контейнерами
+  - Image - образ-шаблон, который содержит экземпляр ОС с нужным набором библиотек для запуска приложения;
+  - Контенер - запущенный экземпляр образа.
+- Docker-registry: репозиторий образов:
+  - Docker-Hub: публичный;
+  - Private-regisrtry.
+
+#
+; Установить Docker в ubuntu:
+sudo apt install docker.io
+
+; Посмотреть версию docker:
+docker version
+; Справка по команде docker:
+docker <name_of_comand> --help
+
+; Поиск образа в репозитории docker hub:
+docker search <name>
+
+## alpine в имени образа - означает легковесный образ! Еще есть slim и scratch!
+
+; Запуск контейнера:
+docker run [OPTIONS] <name_of_image>:<name_of_tag>   # Версия образа (по умолчанию "latest") Имя тега можно посмотреть в Docker Hub;
+        -it                                   # Запустить контейнер в interactive режиме - после запуска выполняется переход в консоль контейнера!
+        -d                                    # Запустить контейнер в фоновом режиме;
+        -p <host_port>:<container_port>       # Проксирование локального порта в порт контейнера;
+        --name <name_of_container>
+        
+; Выполнить команду на запущенном контейнере:
+docker exec [OPTIONS] <NAME_of_IMAGE> <NAME_of_COMMAND>       # [OPTIONS] - те же, что и в команде "run"!
+
+; Просмотр запущенных контейнеров:
+docker ps
+        -a        # Просмотр всех контейнеров (и остановленных);
+        -q        # вывести только CONTAINER_ID;
+
+
+; Просмотреть логи контейнера:
+docker logs <CONTAINER_ID_or_NAMES>
+        --tail <number_of_rows>        # Вывести только указанное количество строк;
+        -f                             # вывод лога по мере заполнения;
+        
+; Остановить и удалить контейнер:
+docker rm <name_of_container>
+        -f                            # force - остановить и удалить принудительно!
+            $(docker ps -qa)          # Удаление всех контейнеров
+
+; Сборка образа из Dockerfile в текущей директории:
+docker build -t <NAME_of_IMAGE>:<TAG> .            # В данном случае нужно запускать в директории где хранится DOCKER-файл!
+        -t                                         # Позволяет задать тег в имени образа;
+
+; Посмотреть образы контейнеров:
+docker images
+
+; Сменить тег образа:
+docker tag <<OLD_NAME_of_IMAGE>:<OLD_TAG>> <<NEW_NAME_of_IMAGE>:<NEW_TAG>>
+
+; Удалить образ контейнера:
+docker rmi <NAME_OF_IMAGE>
+        -f        # Удалить принудительно;
+
+; Залогиниться в Docker Hub:
+docker login
+; Загрузить образ контейнера на Docker HUb:
+docker push <NAME_of_IMAGE>:<TAG>
+
+#
+
+------------------------
+DOCKER-файл - содержит набор инструкций (1 строка = 1 инструкция), каждая инструкция образует новый слой в образе контейнера.
+Желательно не использовать в одном DOCKER-файле более 10 иснтрукций!
+
+Все слои кроме последнего соержаться в образе в режиме "ReadOnly"!
+
+Содержимое файла Docker:
+
+ДЛЯ ИНТЕПРЕТИРУЕМЫХ ЯП, например:
+- в PYTHON версии:
+
+=======
+FROM <NAME_of_BASE_IMAGE>:<TAG>                            # Указывается базовый образ для контейнера (так же может иметь несколько слоев!);
+
+RUN <NAME_of_COMMAND>                                      # Указывется команда выполняемая при разворачивании контейнера, например:
+    pip install <NAMES_of_PACKETS>                         # Указываются дополнительные пакеты, которые включаются в образ;
+
+ADD . /app                                                 # Копируем файлы в директорию /app внутри нашего контейнера из текущей дериктории;
+
+EXPOSE <NUMBER_of_PORT>                                    # Указывает на каком порту будет работать приложение (несет информативный характер);
+ENTRYPOINT python /app/manage.py runserver 0.0.0.0:8000    # Указываем какое приложение в контейнере запускаем при старте контейнера и на каком порту
+========
+
+ДЛЯ КОМПИЛИРУЕМЫХ ЯП, например:
+- в GOLANG версии:
+
+============
+WORKDIR /app        # Создаем и задаем в качестве рабочей директории /app;
+============
+
+FROM — устанавливает базовый образ.
+RUN — выполняет команду в контейнере.
+ENV — устанавливает переменную окружения.
+WORKDIR — устанавливает рабочую директорию.
+VOLUME — создает точку монтирования для тома.
+CMD — устанавливает исполняемый файл для контейнера.
+COPY - копируем в папку app контейнера необходимые файлы.
+
+Используйте ENTRYPOINT, если вы не хотите, чтобы пользователь вашего образа переопределял поведение приложения в контейнере. Используйте CMD, если записываете команду по умолчанию, которую пользователь с лёгкостью может переопределить на этапе запуска контейнера.
+
+Можно запустить ПО контейнера командой ENTRYPOINT, а дополнительные команды после запуска ПО командой CMD.
+ENTRYPOINT и CMD могут запускаться в режимах:
+shell - строка,
+exec - ["элемент", "элемент"] - массив
+
+
+
+ПРИМЕР ЗАПУСКА ОБРАЗА NGINX:
+----------------------------
+1. Создадим директорию для хранения стартовой страницы NGINX:
+sudo mkdir -p /var/www/html
+
+2. Создадим в ней файл стартовой страницы:
+sudo vim /var/www/html/index.html
+
+***
+<html>
+<head>
+<title>pro.devops</title>
+</head>
+<body>
+<h1>Hello world!</h1>
+</body>
+</html>
+***
+
+3. Убедимся что нет запущенного процесса nginx%
+ps ax | grep nginx
+
+4. Установим docker:
+sudo apt update && sudo apt install docker -y && docker version
+
+5. Скачаем latest версию образа nginx из docker-hub:
+sudo docker pull nginx
+
+6. Запускаем контенер в фоновом режиме, указываем его имя, пробрасываем порты (порт_хоста:порт_контейнера),
+   пробрасываем директорию со страницей (дир_хоста:дир_контейнера) и указываем образ:
+ sudo docker run -d --name nginx -p 80:80 -v /var/www/html:/usr/share/nginx/html nginx
+
+7. Проверяем стартовую страницу в браузере по IP сервера.
+
+
+ПРИМЕР СОЗДАНИЯ И ЗАПУСКА ОБРАЗА NGINX:
+-------------------------------------
+Запустим http-сервер на node.js
+
+1. Создадим файл приложения:
+vim app.js
+
+***
+const http = require('http');
+
+const hostname = '0.0.0.0';
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello World');
+});
+server.listen(port, hostname, () => {
+  console.log('Server running at http://${hostname}:${port}/');
+});
+***
+
+2. Создадим Docker файл:
+vim Dockerfile
+
+***
+FROM ubuntu:latest
+RUN apt-get update \
+ && apt-get -y install nodejs \
+ && apt-get -y install npm
+COPY . /app
+EXPOSE 3000
+ENTRY POINT ["node", "/app/app.js"]
+***
+
+3. Собираем образ - указываем тег и дерикторию до Dockerfile (текущую):
+sudo docker build -t test .
+
+4. Запускаем контейнер:
+sudo docker run -d -p 3000%3000 test
+
+
+---------------
+DOCKER COMPOSE:
+---------------
+Позволяет настроить запуск мультиконтеерного приложения (настройка связей контейнеров).
+Поддерживает формат yaml.
+Настройки вносятся в файл compose.yaml (или docker-compose.yaml, docker-compose.yml)
+ - который хранится в директории проекта, где каждый сервис зранится в своем подкаталоге:
+. .. ./compose.yaml ./service_1/ ./service_2/
+
+Содержимое compose.yml:
+-----------------------
+***
+# Версия формата (поддержка docker-engine), не обязательна:
+version: "3.9"
+
+# Список контейнеров, которые нужно будет запустить - обязателен.
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+  db:
+    image: mysql:5.7
+    networks:
+      - db_net
+    volumes:
+      - db_data:/var/ib/mysql
+      
+  frontend:
+    image: awesome/webapp
+    configs:
+      - httpd-config
+    secrets:
+      - my_secret
+ 
+ # Список подсетей docker-network которые объединяют группы контейнеров в локальную виртуальную сеть - может быть доступна снаружи.
+ networks:
+   db_net:
+     driver:brige
+     
+ # Список томов которые будут доступны контейнерам, описанным в файле конфигурации
+ volumes:
+   db_data: {}
+   
+ # Список параметров, которые позволяют запускать контейнеры в различнх режимах.
+ configs:
+   httpd-config:
+     external: true
+ 
+ # Список параметров чувствительных с точки зрения безопасности:
+ secrets:
+   my_secret:
+     secret: secret.txt
+***
+
+На примере сайта на Wordpress:
+------------------------------
+Состоит из двух сервисов (БД MySQL и Wordpress (Apache + PHP)) + Данные (Docker Volume).
+Каждый сервис упаковываем в контейнер - итого 2 контейнера.
+С помощью Docker compose настраиваем их взаимодействие через сеть docker-network.
+
+1. Создаем compose файл:
+vim compose.yaml
+
+***
+version: "3.9"
+
+services:
+  db:
+    image: mysq1:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: strongpassword
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    ports:
+      - "8000:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+volumes:
+  db_data: {}
+***
+
+2. Запускаем docker-compose:
+sudo docker compose up
+
+3. Проверяем сайт в браузере:
+ip_host:8000
+
+Остановка контейнеров выполняется командой:
+sudo docker compose down
+
+-------------
+DOCKER SWARM:
+-------------
+
+Docker Swarm (или режим роя Docker) — это инструмент оркестрации контейнеров, подобный Kubernetes.
+Он позволяет управлять несколькими контейнерами, развернутыми на нескольких хостах, на которых запущен сервер Docker.
+Или иначе - он способен управлять несколькими узлами докера.
+По умолчанию режим роя отключен; его должна настроить команда DevOps.
