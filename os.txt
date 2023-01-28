@@ -1,34 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Codespaces
-Marketplace
-Explore
- 
-@mg4v 
-mg4v
-/
-sum_os
-Public
-Cannot fork because you own this repository and are not a member of any organizations.
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-sum_os/sum_os.txt
-@mg4v
-mg4v Update sum_os.txt
-Latest commit b3bcf63 on Nov 18, 2022
- History
- 1 contributor
-85 lines (69 sloc)  4.19 KB
-
 БУЛЕВА АЛГЕБРА:
 ---------------
 
@@ -114,18 +83,3 @@ Xerox:
 
 Big-Endian (TCP/IP)   - старший байт слева:  256 = 1 + 255 = 00000001 11111111;
 Little-Endian (intel) - старший байт справа: 256 = 255 + 1 = 11111111 00000001.
-Footer
-© 2023 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
-sum_os/sum_os.txt at gb-os · mg4v/sum_os
