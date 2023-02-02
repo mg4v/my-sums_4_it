@@ -643,7 +643,7 @@ minikube start
 kubectl <command> --help
 
 ; Посмотреть доступные в kubernetes ресурсы:
-kubectl api-recurses
+kubectl api-resources
 
 ; Получение описания объекта определенного типа
 kubectl explain [pod|replicaset|deployment|...]
