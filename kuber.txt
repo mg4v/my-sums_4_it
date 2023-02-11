@@ -698,7 +698,7 @@ kubectl logs <pod_name> -n <name_ns>
 kubectl exec -it <pod_name> <command>
 
 ; Включить форвардинг порта пода:
-kubectl port-forward pod/<pod_name> <host_port>:<pod_port>
+kubectl port-forward pod/<pod_name> -- <host_port>:<pod_port>
 
 ; Удаление объекта:
 kubectl delete [pod|replicaset|deployment|...] <object_name>
