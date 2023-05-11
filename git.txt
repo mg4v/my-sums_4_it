@@ -3,6 +3,9 @@
 -------------
 ** В Debian:
 #	apt install git
+
+** В Redhat
+#	yum install git
 	
 ** Вывести номер установленной версии:	
 $	git --version
