@@ -1,3 +1,32 @@
 ----------
 УСТАНОВКА:
 ----------
+https://www.python.org/ --> DOWNLLOADS (3v)
+запускаем:
+ - Add Python to PATH
+ - Install Now
+
+** Проверка версии:
+python3 --version
+
+** Запуск python в консоли:
+python3
+
+------
+PRINT
+
+Вывод сообщения на экран
+
+**
+print("Hello, world!")
+
+----------
+АРИФМЕТИКА
+
+**
+a+b
+a-b
+a*b
+a/b
+
+
