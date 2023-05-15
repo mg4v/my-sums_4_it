@@ -12,6 +12,14 @@ python3 --version
 ** Запуск python в консоли:
 python3
 
+** Выход из python:
+exit()
+
+** Файлы в python имеют расширения ".py".
+
+** запуск файла с программой через оболочку python:
+python3 <имя_файла>.py
+
 ------
 PRINT
 
