@@ -110,7 +110,7 @@ WHICH
 Показывает путь до исполняемого файла команды
 
 #
-which [OPTIONS] [--] {{ COMMAND_NAME }}
+which [OPTIONS] {{ COMMAND_NAME }}
 
 ---
 MAN
