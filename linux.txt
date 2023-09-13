@@ -581,6 +581,67 @@ find {{ PATH }} -type {{ TYPE_FILE }}
 ; искать по имени
 find {{ PATH }} -name {{ FILE_NAME }}
 
+------------------
+РАБОТА С АРХИВАМИ:
+------------------
+
+Архиваторы (в ос семейства linux) не сжимают файлы, они создают один файл, который включает в себя все указанные файлы.
+Компрессоры - сжимают файлы, созданные архиваторами.
+
+---
+TAR
+
+Архиватор
+
+#
+tar -f [ OPTIONS ] {{ ARCHIVE_NAME }}.tar {{ TARGET_FILES }}
+ # обязательно указывать ключ "-f" он позволяет передать на вход команде tar целевой файл,
+ ## ключ "-f" всегда указывается последним из всех опций.
+ ## Опции можно перечислять без знака "-" перед ними
+ 
+; создать архив (CREATE)
+tar -cf {{ ARCHIVE_NAME }}.tar {{ TARGET_FILES }}
+
+; распаковать архив (EXTRACT)
+tar -xf {{ ARCHIVE_NAME }}.tar
+
+; просмотреть содержимое архива (TEST)
+tar -tf {{ ARCHIVE_NAME }}.tar
+
+; вывод обрабатываемях файлов при упаковке/распаковке (VERBOSE)
+tar -cvf/xvf {{ ARCHIVE_NAME }}.tar {{ TARGET_FILES }}
+
+; создать tar архив и выполнить сжатие с помощью gzip
+tar -czf {{ ARCHIVE_NAME }}.tar.gz {{ TARGET_FILES }}
+
+; создать tar архив и выполнить сжатие с помощью bzip2
+tar -czf {{ ARCHIVE_NAME }}.tar.bz2 {{ TARGET_FILES }}
+
+; создать tar архив и выполнить сжатие с помощью xz
+tar -czf {{ ARCHIVE_NAME }}.tar.xz {{ TARGET_FILES }}
+
+---------------
+GZIP, BZIP2, XZ
+
+Компрессоры
+
+#
+gzip/bzip2/xz [OPTIONS] {{ TARGET_FILES }}
+
+; декомпрессия (разжатие)
+gunzip/bunzip2/unxz {{ ARCHIVE_NAME }}
+
+---
+ZIP
+
+Архиватор и компрессор - сразу архивирует и сжимает
+
+#
+zip [OPTIONS] {{ ARCHIVE_NAME }}.zip {{ TARGET_FILES }}
+
+; распаковать
+unzip {{ ARCHIVE_NAME }}
+
 ----------------------------------
 УПРАВЛЕНИЕ ДИСКОВЫМ ПРОСТРАНСТВОМ:
 ----------------------------------
@@ -875,66 +936,7 @@ grep [OPTIONS] {{ PATTERN }} {{ FILE_NAME }}
   {{ PATTERN}}*           # любое количество повторений указанного шаблона;
   \{{ SPEC_CHARACTERS}}   # экранирование спецсивола, что бы он воспринимался как текст.
 
-------------------
-РАБОТА С АРХИВАМИ:
-------------------
 
-Архиваторы (в ос семейства linux) не сжимают файлы, они создают один файл, который включает в себя все указанные файлы.
-Компрессоры - сжимают файлы, созданные архиваторами.
-
----
-TAR
-
-Архиватор
-
-#
-tar -f [ OPTIONS ] {{ ARCHIVE_NAME }}.tar {{ TARGET_FILES }}
- # обязательно указывать ключ "-f" он позволяет передать на вход команде tar целевой файл,
- ## ключ "-f" всегда указывается последним из всех опций.
- ## Опции можно перечислять без знака "-" перед ними
- 
-; создать архив (CREATE)
-tar -cf {{ ARCHIVE_NAME }}.tar {{ TARGET_FILES }}
-
-; распаковать архив (EXTRACT)
-tar -xf {{ ARCHIVE_NAME }}.tar
-
-; просмотреть содержимое архива (TEST)
-tar -tf {{ ARCHIVE_NAME }}.tar
-
-; вывод обрабатываемях файлов при упаковке/распаковке (VERBOSE)
-tar -cvf/xvf {{ ARCHIVE_NAME }}.tar {{ TARGET_FILES }}
-
-; создать tar архив и выполнить сжатие с помощью gzip
-tar -czf {{ ARCHIVE_NAME }}.tar.gz {{ TARGET_FILES }}
-
-; создать tar архив и выполнить сжатие с помощью bzip2
-tar -czf {{ ARCHIVE_NAME }}.tar.bz2 {{ TARGET_FILES }}
-
-; создать tar архив и выполнить сжатие с помощью xz
-tar -czf {{ ARCHIVE_NAME }}.tar.xz {{ TARGET_FILES }}
-
----------------
-GZIP, BZIP2, XZ
-
-Компрессоры
-
-#
-gzip/bzip2/xz [OPTIONS] {{ TARGET_FILES }}
-
-; декомпрессия (разжатие)
-gunzip/bunzip2/unxz {{ ARCHIVE_NAME }}
-
----
-ZIP
-
-Архиватор и компрессор - сразу архивирует и сжимает
-
-#
-zip [OPTIONS] {{ ARCHIVE_NAME }}.zip {{ TARGET_FILES }}
-
-; распаковать
-unzip {{ ARCHIVE_NAME }}
 
 
 
