@@ -563,10 +563,10 @@ tar -cvf/xvf {{ ARCHIVE_NAME }}.tar {{ TARGET_FILES }}
 tar -czf {{ ARCHIVE_NAME }}.tar.gz {{ TARGET_FILES }}
 
 ; создать tar архив и выполнить сжатие с помощью bzip2
-tar -czf {{ ARCHIVE_NAME }}.tar.bz2 {{ TARGET_FILES }}
+tar -cjf {{ ARCHIVE_NAME }}.tar.bz2 {{ TARGET_FILES }}
 
 ; создать tar архив и выполнить сжатие с помощью xz
-tar -czf {{ ARCHIVE_NAME }}.tar.xz {{ TARGET_FILES }}
+tar -cJf {{ ARCHIVE_NAME }}.tar.xz {{ TARGET_FILES }}
 
 ---------------
 GZIP, BZIP2, XZ
@@ -586,6 +586,9 @@ ZIP
 
 #
 zip [OPTIONS] {{ ARCHIVE_NAME }}.zip {{ TARGET_FILES }}
+
+; Запаковать директорию со всемсодержимым
+-r
 
 ; распаковать
 unzip {{ ARCHIVE_NAME }}
