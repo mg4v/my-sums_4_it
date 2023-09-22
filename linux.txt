@@ -771,6 +771,9 @@ usermod -aG {{ GROUP_NAME }} {{ USER_NAME }}
     -a        # добавить;
     -G        # дополнительные группы.
 
+; Удалить пользователя из группы с помощью perl скрипта:
+deluser {{ USER_NAME }} {{ GROUP_NAME }}
+
 ; Удалить группу пользователей командой:
 groupdel  {{ GROUP_NAME }}
 
