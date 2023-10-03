@@ -453,11 +453,15 @@ ECHO
 echo [OPTIONS] {{ SOME_TEXT }}
 
 ; вывести текст на экран
-eche "SOME TEXT"
+echo "SOME TEXT"
 
 ; вывести содержимое переменной
 echo ${{ VARIABLE_NAME }}
+
+; не выполнять перевод строки после вывода сообщения
+echo -n {{ MESSAGE }}
 #
+
 
 --
 WC
