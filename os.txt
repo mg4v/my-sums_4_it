@@ -46,7 +46,7 @@ Xerox:
   - Ethernet;
   - mouse;
   - laser printer;
-  - noutebooke (xerox not a tracker).
+  - notebook (xerox not a tracker).
 
 Разрядность процессора:
 -----------------------
