@@ -525,7 +525,13 @@ echo ${{ VARIABLE_NAME }}
 echo -n {{ MESSAGE }}
 #
 
-
+; перевести значение из HEX в DECIMAL:
+echo $((16#{{ VALUE }}))
+# Например:
+...
+echo $((16#FF))
+255
+...
 --
 WC
 
@@ -842,7 +848,17 @@ DD
 
 Преобразовать и копировать файлы.
 Работает напрямую с дисковым устройством минуя файловую систему - работает с сырыми данными.
-  
+
+#
+dd if={{ SOURCE/INPUT_FILE/DEVICE }} bs={{ BLOCK_SIZE }} \
+skip={{ COUNT_SKIPPING_BLOCKS }} \
+count={{ COUNT_BLOCKS}} of={{ DEST/OUTPUT_FILE/DEVICE}}
+
+; считать сырые данные из первых 512 байт на диске sda (MBR) и вывести на экран содержимое в формате HEX: 
+dd if=/dev/sda bs=1 count=512 | hexdump -C
+
+; тоже самое, но пропустить первые 446 байт (код загрузчика) и считать содержимое таблицы разделов:
+dd if=/dev/sda skip=446 bs=1 count=16 | hexdump -C
 
 -----
 FDISK
@@ -862,7 +878,7 @@ m
 p
 
 ; Выход из программы:
-d
+q
 
 
 
