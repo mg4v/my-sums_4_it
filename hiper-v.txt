@@ -1,0 +1,57 @@
+============================
+ШПАРГАЛКА HIPER-V WINDOWS-11
+============================
+
+POWERSHELL COMMANDS:
+--------------------
+
+; получить список командлетов и алиасов для работы с hiper-v:
+Get-Command -Module hyper-v | Out-GridView
+
+; получить список виртуальных машин (инстансов):
+Get-VM
+
+; Вернуть список только запущенных инстансов:
+Get-VM | where {$_.State -eq 'Running'}
+
+; вернуть список только остановленных инстансов:
+Get-VM | where {$_.State -eq 'Off'}
+
+; запустить конкретный инстанс:
+Start-VM -Name <virtual machine name>
+
+; запустить все запущенные виртуальные машины, получите список этих компьютеров и переведите список в Start-VM команду:
+Get-VM | where {$_.State -eq 'Off'} | Start-VM
+
+; завершить работу всех работающих виртуальных машин, выполните следующую команду:
+Get-VM | where {$_.State -eq 'Running'} | Stop-VM
+
+; создание контрольной точки инстанса:
+Get-VM -Name <VM Name> | Checkpoint-VM -SnapshotName <name for snapshot>
+
+; создание нового инстанса:
+## В следующем примере показано, как создать виртуальную машину в интегрированной среде сценариев PowerShell (ISE):
+
+Чтобы открыть среду сценариев PowerShell, нажмите кнопку "Пуск", введите среду сценариев PowerShell.
+1. Выполните следующий код, чтобы создать виртуальную машину.
+   ** Дополнительные сведения о команде см. в документации по новой виртуальной New-VM машине.
+
+...
+$VMName = "VMNAME"
+
+$VM = @{
+     Name = $VMName
+     MemoryStartupBytes = 2147483648
+     Generation = 2
+     NewVHDPath = "C:\Virtual Machines\$VMName\$VMName.vhdx"
+     NewVHDSizeBytes = 53687091200
+     BootDevice = "VHD"
+     Path = "C:\Virtual Machines\$VMName"
+     SwitchName = (Get-VMSwitch).Name
+ }
+
+New-VM @VM
+...
+
+; Получить IP-адреса всех запущенных инстансов:
+get-vm | ?{$_.State -eq "Running"} | select -ExpandProperty networkadapters | select vmname, macaddress, switchname, ipaddresses | ft -wrap -autosize
