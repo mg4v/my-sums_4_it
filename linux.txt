@@ -1023,7 +1023,56 @@ LVM - минусы:
  - Не все ОС имеют драйвер для работы с LVM
  - В некоторых версиях GNU/Linux GRUB не может загрузиться с LVM
 
+#
 
+{{ PREFIX }{{ COMMAND }} [OPTIONS] [ARGUMENTS]
+
+## Работа с PV:
+
+; посмотреть список PV:
+pvs
+
+; посмотреть список PV с выводом подробной информации:
+pvdisplay
+
+; создать PV на устройстве:
+pvcreate {{ DEVICE_PATH }}
+
+## Работа с VG:
+
+; посмотреть список VG:
+vgs
+
+; посмотреть список VG с выводом подробной информации:
+vgdisplay
+
+; создать VG и привязать к ней PV:
+vgcreate {{ VG_NAME }} {{ PV_NAME }}
+
+**  {{ PV_NAME }} = {{ DEVICE_PATH }}
+
+## Работа с LV:
+
+; посмотреть список LV:
+lvs
+
+; посмотреть список LV с выводом подробной информации:
+lvdisplay
+
+; создать LV с привязкой к VG, задав ему имя и размер:
+lvcreate -L {{ SIZE }}{{ MEASURE }} -n {{ LV_NAME }} {{ VG_NAME }}
+# Например:
+lvcreate -L 1G -n test01 test
+
+** файлы LV размещаются в каталоге /dev/mapper/ и именуются по формуле:
+*** {{ VG_NAME }}{{ LV_NAME }}
+*** обращаться к LV в командах bash нужно по имени файла.
+
+; создать ФС на LV:
+mkfs.{{ FS_NAME }} {{ LV_NAME }}
+
+; монтировать LV к VFS:
+mount {{ LV_NAME }} {{ MOUNT_PATH }}
 
 -----
 LSBLK
