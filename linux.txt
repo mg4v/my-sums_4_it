@@ -1038,6 +1038,10 @@ pvdisplay
 ; создать PV на устройстве:
 pvcreate {{ DEVICE_PATH }}
 
+; изменить (увеличить) размер PV согласно доступному
+  на блочном устройстве месте:
+pvresize {{ DEVICE_PATH }}
+
 ; удалить PV:
 pvremove {{ PV_NAME }}
 
@@ -1087,6 +1091,9 @@ mkfs.{{ FS_NAME }} {{ LV_NAME }}
 
 ; монтировать LV к VFS:
 mount {{ LV_NAME }} {{ MOUNT_PATH }}
+
+; Изменить размер LV (увеличить на 200 мегабайт):
+lvresize {{ LV_NAME }} -L +200M
 
 ; удалить LV (предварительно выполнив umount, если смонтирован):
 lvremove {{ LV_NAME }}
