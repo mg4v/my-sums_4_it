@@ -1051,6 +1051,9 @@ vgcreate {{ VG_NAME }} {{ PV_NAME }}
 
 **  {{ PV_NAME }} = {{ DEVICE_PATH }}
 
+; удалить VG:
+vgremove {{ VG_NAME }}
+
 ## Работа с LV:
 
 ; посмотреть список LV:
@@ -1073,6 +1076,9 @@ mkfs.{{ FS_NAME }} {{ LV_NAME }}
 
 ; монтировать LV к VFS:
 mount {{ LV_NAME }} {{ MOUNT_PATH }}
+
+; удалить LV (предварительно выполнив umount, если смонтирован):
+lvremove {{ LV_NAME }}
 
 -----
 LSBLK
