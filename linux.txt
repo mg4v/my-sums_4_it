@@ -1038,6 +1038,9 @@ pvdisplay
 ; создать PV на устройстве:
 pvcreate {{ DEVICE_PATH }}
 
+; удалить PV:
+pvremove {{ PV_NAME }}
+
 ## Работа с VG:
 
 ; посмотреть список VG:
@@ -1054,6 +1057,9 @@ vgcreate {{ VG_NAME }} {{ PV_NAME }}
 ; удалить VG:
 vgremove {{ VG_NAME }}
 
+; добавить в VG новый PV:
+vgextand {{ VG_NAME }} {{ NEW_PV_NAME }}
+
 ## Работа с LV:
 
 ; посмотреть список LV:
@@ -1066,6 +1072,10 @@ lvdisplay
 lvcreate -L {{ SIZE }}{{ MEASURE }} -n {{ LV_NAME }} {{ VG_NAME }}
 # Например:
 lvcreate -L 1G -n test01 test
+
+; создать LV в VG включающей в себя несколько PV
+  и назначть ему все доступное свободное пространство VG:
+lvcreate -l +100%FREE -n {{ LV_NAME }} {{ VG_NAME }}
 
 ** файлы LV размещаются в каталоге /dev/mapper/ и именуются по формуле:
 *** {{ VG_NAME }}{{ LV_NAME }}
