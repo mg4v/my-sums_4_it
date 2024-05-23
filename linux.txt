@@ -860,6 +860,8 @@ dd if=/dev/sda bs=1 count=512 | hexdump -C
 ; тоже самое, но пропустить первые 446 байт (код загрузчика) и считать содержимое таблицы разделов:
 dd if=/dev/sda skip=446 bs=1 count=16 | hexdump -C
 
+; создать файл с рандомным содержимым, заданного размера:
+dd if=/dev/urandom bs={{ BLOCK_SIZE }} count={{ COUNT }} | base64 > {{ FILE_NAME }}
 -----
 FDISK
 
@@ -1058,6 +1060,9 @@ pvcreate {{ DEVICE_PATH }}
 ; изменить (увеличить) размер PV согласно доступному
   на блочном устройстве месте:
 pvresize {{ DEVICE_PATH }}
+
+; переместить все данные с указанного PV на другие PV в текущей VG:
+pvmove {{ PV_NAME }}
 
 ; удалить PV:
 pvremove {{ PV_NAME }}
