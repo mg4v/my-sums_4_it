@@ -853,6 +853,8 @@ DD
 dd if={{ SOURCE/INPUT_FILE/DEVICE }} bs={{ BLOCK_SIZE }} \
 skip={{ COUNT_SKIPPING_BLOCKS }} \
 count={{ COUNT_BLOCKS}} of={{ DEST/OUTPUT_FILE/DEVICE}}
+## skip - указывает количество блоков при вводе (чтении с устройства ввода (if) ibs),
+   seek - указывает количество блоков при выводе ( записи на устройство вывода (of) obs).
 
 ; считать сырые данные из первых 512 байт на диске sda (MBR) и вывести на экран содержимое в формате HEX: 
 dd if=/dev/sda bs=1 count=512 | hexdump -C
