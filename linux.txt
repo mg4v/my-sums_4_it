@@ -1087,6 +1087,9 @@ vgcreate {{ VG_NAME }} {{ PV_NAME }}
 ; удалить VG:
 vgremove {{ VG_NAME }}
 
+; удалить VG вместе с LV (не должны быть смонтированы):
+vgremove -f {{ VG_NAME }}
+
 ; добавить в VG новый PV:
 vgextand {{ VG_NAME }} {{ NEW_PV_NAME }}
 
