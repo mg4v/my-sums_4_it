@@ -813,6 +813,12 @@ tar -cjf {{ ARCHIVE_NAME }}.tar.bz2 {{ TARGET_FILES }}
 ; создать tar архив и выполнить сжатие с помощью xz
 tar -cJf {{ ARCHIVE_NAME }}.tar.xz {{ TARGET_FILES }}
 
+; создать архив tar из файлов и зашифровать его gpg:
+
+tar -I 'gpg -c' -cf file.tar.gpg file1 file2 dir1
+
+# распаковать tar -I 'gpg -d' -xf file.tar.gpg
+
 ---------------
 GZIP, BZIP2, XZ
 
@@ -835,9 +841,18 @@ zip [OPTIONS] {{ ARCHIVE_NAME }}.zip {{ TARGET_FILES }}
 ; Запаковать директорию со всемсодержимым
 -r
 
+; зашифровать архив паролем:
+-P {{ PASSWORD }}
+
 ; распаковать
 unzip {{ ARCHIVE_NAME }}
 
+
+----
+GPG - шифрование файлов:
+
+; зашифровать файл с помощью gpg:
+gpg -c {{ TAR_ARCHIVE }}
 
 ----------------------------------
 УПРАВЛЕНИЕ ДИСКОВЫМ ПРОСТРАНСТВОМ:
