@@ -646,6 +646,9 @@ sed -i 's/{{ SEARCH_REGEX }}/{{ REPLACEMENT }}/g' {{ INPUTFILE }}
          Если указан флаг замены, заменяются все вхождения.
     -INPUTFILE — имя файла, для которого вы хотите запустить команду (где заменяем строки).
 
+https://routerus.com/how-to-use-sed-to-find-and-replace-string-in-files/
+
+
 -----
 GEDIT
 
