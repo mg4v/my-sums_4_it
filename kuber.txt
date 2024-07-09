@@ -1,4 +1,7 @@
 # kuber_sum
+
+Сайт проекта: https://kubernetes.io/
+
 ----------
 ГЛОССАРИЙ:
 ----------
@@ -669,6 +672,19 @@ minikube start
 ; Справка kubectl:
 kubectl <command> --help
 
+; Показать версию kubectl client'a и сервера
+kubectl version
+
+; Показать версию kubectl client'a
+kubectl version --client
+
+; Получить информацию о статусе управляющих компонент:
+kubectl get componentstatus
+
+; Показать Информацию о K8s Cluster'e
+kubectl cluster-info
+# дополнительный параметр dump выведет подробную информауию о кластере в JSON вормате
+
 ; Посмотреть доступные в kubernetes ресурсы:
 kubectl api-resources
 
@@ -680,9 +696,6 @@ kubectl get node
 
 ; Получить информацию о ноде в кластере:
 kubectl describe node
-
-; Получить информацию о статусе управляющих компонент:
-kubectl get componentstatus
 
 ; Создать namespace:
 kubectl create namespace <name_ns>
