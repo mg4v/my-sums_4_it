@@ -202,6 +202,11 @@ DOCKER COMPOSE:
 Позволяет настроить запуск мультиконтеерного приложения (настройка связей контейнеров).
 Может потребоваться дополнительная установка пакета compose, привер для ubuntu:
   sudo apt install docker-compose -y
+
+## В Ubuntu, начиная с версии 24.04, для успешного чтени файла compose.yaml с более новыми версиями формата (например 3.9),
+### необходимо устанавливать:
+sudo apt install docker-compose-v2
+
 Поддерживает формат yaml.
 Настройки вносятся в файл compose.yaml (или docker-compose.yaml, docker-compose.yml)
  - который хранится в директории проекта, где каждый сервис зранится в своем подкаталоге:
@@ -295,6 +300,8 @@ volumes:
 
 2. Запускаем docker-compose:
 sudo docker compose up
+## при docker-compose-v2 запускать:
+docker compose up
 
 3. Проверяем сайт в браузере:
 ip_host:8000
