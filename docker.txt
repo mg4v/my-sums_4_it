@@ -193,7 +193,7 @@ ENTRY POINT ["node", "/app/app.js"]
 sudo docker build -t test .
 
 4. Запускаем контейнер:
-sudo docker run -d -p 3000%3000 test
+sudo docker run -d -p 3000:3000 test
 
 
 ---------------
