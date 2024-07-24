@@ -907,6 +907,7 @@ dd if=/dev/sda skip=446 bs=1 count=16 | hexdump -C
 
 ; создать файл с рандомным содержимым, заданного размера:
 dd if=/dev/urandom bs={{ BLOCK_SIZE }} count={{ COUNT }} | base64 > {{ FILE_NAME }}
+
 -----
 FDISK
 
@@ -1086,7 +1087,7 @@ LVM - минусы:
 
 #
 
-{{ PREFIX }{{ COMMAND }} [OPTIONS] [ARGUMENTS]
+{{ PREFIX }}{{ COMMAND }} [OPTIONS] [ARGUMENTS]
 
 ## Работа с PV:
 
