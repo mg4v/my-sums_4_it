@@ -274,7 +274,7 @@ matchLabels:
   app: myapp
 mathExpressions:
   {key: env, operator: In, values: [qa, dev]}
-  {key: version, operator: In, values: [2]
+  {key: version, operator: In, values: [2]}
 <---
 
  - annotations - аннотации;
