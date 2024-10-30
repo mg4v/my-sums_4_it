@@ -317,6 +317,3 @@ SELECT * FROM `order`
 	INNER JOIN order_products ON order_products.order_id = `order`.id
     RIGHT JOIN product ON order_products.product_id = product.id
     WHERE `order`.id IS NULL;
-
-
-
