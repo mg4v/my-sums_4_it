@@ -8,7 +8,7 @@ HAProxy — серверное программное обеспечение д�
 
 для TCP- и HTTP-приложений посредством распределения входящих запросов на несколько обслуживающих серверов.
 
-Программа написана на C&.
+Программа написана на C.
 
 Простыми словами - HAProxy: очень крутой и бесплатный LoadBalanser.
 
@@ -44,7 +44,7 @@ sudo service haproxy status
 
 или
 
-sudo systemctl status haproxy.servoce
+sudo systemctl status haproxy.service
 
 ...
 
@@ -108,7 +108,7 @@ sudo service haproxy restart
 
 или
 
-sudo systemctl restart haproxy.servoce
+sudo systemctl restart haproxy.service
 
 ...
 
